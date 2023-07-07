@@ -10,12 +10,12 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::all();
-        return view('posts.index', compact('posts'));
+        return view('post.index', compact('posts'));
     }
 
     public function create()
     {
-        return view('posts.create');
+        return view('post.create');
     }
 
     public function store(Request $request)
@@ -30,19 +30,19 @@ class PostController extends Controller
 
         Post::create($validatedData);
 
-        return redirect()->route('posts.index')->with('success', 'Post created successfully.');
+        return redirect()->route('post.index')->with('success', 'Post created successfully.');
     }
 
     public function show($id)
     {
         $post = Post::findOrFail($id);
-        return view('posts.show', compact('post'));
+        return view('post.show', compact('post'));
     }
 
     public function edit($id)
     {
         $post = Post::findOrFail($id);
-        return view('posts.edit', compact('post'));
+        return view('post.edit', compact('post'));
     }
 
     public function update(Request $request, $id)
@@ -58,7 +58,7 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         $post->update($validatedData);
 
-        return redirect()->route('posts.index')->with('success', 'Post updated successfully.');
+        return redirect()->route('post.index')->with('success', 'Post updated successfully.');
     }
 
     public function destroy($id)

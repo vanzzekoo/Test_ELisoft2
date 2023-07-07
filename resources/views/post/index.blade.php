@@ -1,4 +1,3 @@
-<?php
 
 <h1>Daftar Post</h1>
 
