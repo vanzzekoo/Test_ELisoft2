@@ -9,10 +9,16 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['thumbnail', 'judul', 'konten', 'status_publish', 'tanggal_publikasi'];
+    protected $fillable = [
+        'thumbnail',
+        'judul',
+        'konten',
+        'status_publish',
+        'tanggal_publikasi'
+    ];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+   // public function user()
+   // {
+   //     return $this->belongsTo(User::class);
+   // }
 }
