@@ -13,12 +13,12 @@ class Post extends Model
         'thumbnail',
         'judul',
         'konten',
-        'status_publish',
-        'tanggal_publikasi'
+        'status',
+        'tanggal_publikasi',
     ];
 
-   // public function user()
-   // {
-   //     return $this->belongsTo(User::class);
-   // }
+    public function scopePublished($query)
+    {
+        return $query->where('status', 'Publish')->whereNotNull('tanggal_publikasi');
+    }
 }

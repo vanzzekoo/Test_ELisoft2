@@ -1,36 +1,45 @@
-<!-- resources/views/posts/edit.blade.php -->
-
 @extends('layouts.app')
 
 @section('content')
     <h1>Edit Post</h1>
 
-    <form action="{{ route('posts.update', $post->id) }}" method="POST">
+    <form action="{{ route('posts.update', $post) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
-        <div>
-            <label for="thumbnail">Thumbnail:</label>
-            <input type="text" name="thumbnail" id="thumbnail" value="{{ $post->thumbnail }}">
+
+        <div class="form-group">
+            <label for="thumbnail">Thumbnail</label>
+            @if ($post->thumbnail)
+                <div class="mb-2">
+                    <img src="{{ asset('storage/' . $post->thumbnail) }}" alt="Thumbnail" style="width: 100px;">
+                </div>
+            @endif
+            <input type="file" class="form-control-file" id="thumbnail" name="thumbnail">
         </div>
-        <div>
-            <label for="title">Title:</label>
-            <input type="text" name="title" id="title" value="{{ $post->title }}">
+
+        <div class="form-group">
+            <label for="judul">Title</label>
+            <input type="text" class="form-control" id="judul" name="judul" value="{{ $post->judul }}" required>
         </div>
-        <div>
-            <label for="content">Content:</label>
-            <textarea name="content" id="content">{{ $post->content }}</textarea>
+
+        <div class="form-group">
+            <label for="konten">Content</label>
+            <textarea class="form-control" id="konten" name="konten" rows="5" required>{{ $post->konten }}</textarea>
         </div>
-        <div>
-            <label for="status_publish">Status:</label>
-            <select name="status_publish" id="status_publish">
-                <option value="draft" {{ $post->status_publish === 'draft' ? 'selected' : '' }}>Draft</option>
-                <option value="publish" {{ $post->status_publish === 'publish' ? 'selected' : '' }}>Publish</option>
+
+        <div class="form-group">
+            <label for="status">Status</label>
+            <select class="form-control" id="status" name="status" required>
+                <option value="Draft" {{ $post->status == 'Draft' ? 'selected' : '' }}>Draft</option>
+                <option value="Publish" {{ $post->status == 'Publish' ? 'selected' : '' }}>Publish</option>
             </select>
         </div>
-        <div>
-            <label for="tanggal_publikasi">Publication Date:</label>
-            <input type="date" name="tanggal_publikasi" id="tanggal_publikasi" value="{{ $post->tanggal_publikasi }}">
+
+        <div class="form-group">
+            <label for="tanggal_publikasi">Publish Date</label>
+            <input type="date" class="form-control" id="tanggal_publikasi" name="tanggal_publikasi" value="{{ $post->tanggal_publikasi }}">
         </div>
-        <button type="submit">Update</button>
+
+        <button type="submit" class="btn btn-primary">Update</button>
     </form>
 @endsection

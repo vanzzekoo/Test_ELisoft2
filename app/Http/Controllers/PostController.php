@@ -1,69 +1,82 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::all();
-        return view('post.index', compact('posts'));
+        $posts = Post::orderBy('created_at', 'desc')->paginate(10);
+        return view('posts.index', compact('posts'));
     }
 
     public function create()
     {
-        return view('post.create');
+        return view('posts.create');
     }
 
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'thumbnail' => 'required',
-            'title' => 'required',
-            'content' => 'required',
-            'status_publish' => 'required|in:draft,publish',
-            'tanggal_publikasi' => 'required|date',
+            'thumbnail' => 'nullable|image|max:2048',
+            'judul' => 'required',
+            'konten' => 'required',
+            'status' => 'required|in:Draft,Publish',
+            'tanggal_publikasi' => 'nullable|date',
         ]);
+
+        if ($request->hasFile('thumbnail')) {
+            $thumbnailPath = $request->file('thumbnail')->store('thumbnails');
+            $validatedData['thumbnail'] = $thumbnailPath;
+        }
 
         Post::create($validatedData);
 
-        return redirect()->route('post.index')->with('success', 'Post created successfully.');
+        return redirect()->route('posts.index')->with('success', 'Post created successfully.');
     }
 
-    public function show($id)
+    public function show(Post $post)
     {
-        $post = Post::findOrFail($id);
-        return view('post.show', compact('post'));
+        return view('posts.show', compact('post'));
     }
 
-    public function edit($id)
+    public function edit(Post $post)
     {
-        $post = Post::find($id);
-        return view('post.edit', compact('post'));
+        return view('posts.edit', compact('post'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
         $validatedData = $request->validate([
-            'thumbnail' => 'required',
-            'title' => 'required',
-            'content' => 'required',
-            'status_publish' => 'required|in:draft,publish',
-            'tanggal_publikasi' => 'required|date',
+            'thumbnail' => 'nullable|image|max:2048',
+            'judul' => 'required',
+            'konten' => 'required',
+            'status' => 'required|in:Draft,Publish',
+            'tanggal_publikasi' => 'nullable|date',
         ]);
 
-        $post = Post::findOrFail($id);
+        if ($request->hasFile('thumbnail')) {
+            if ($post->thumbnail) {
+                Storage::delete($post->thumbnail);
+            }
+            $thumbnailPath = $request->file('thumbnail')->store('thumbnails');
+            $validatedData['thumbnail'] = $thumbnailPath;
+        }
+
         $post->update($validatedData);
 
-        return redirect()->route('post.index')->with('success', 'Post updated successfully.');
+        return redirect()->route('posts.index')->with('success', 'Post updated successfully.');
     }
 
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        $post = Post::findOrFail($id);
+        if ($post->thumbnail) {
+            Storage::delete($post->thumbnail);
+        }
+
         $post->delete();
 
         return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');
