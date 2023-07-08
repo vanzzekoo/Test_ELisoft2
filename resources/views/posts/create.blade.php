@@ -1,6 +1,4 @@
-@extends('layouts.app')
 
-@section('content')
     <h1>Create Post</h1>
 
     <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
@@ -23,11 +21,12 @@
 
         <div class="form-group">
             <label for="status">Status</label>
-            <select class="form-control" id="status" name="status" required>
+            <select class="form-control" id="status_publish" name="status" required>
                 <option value="Draft">Draft</option>
                 <option value="Publish">Publish</option>
             </select>
         </div>
+
 
         <div class="form-group">
             <label for="tanggal_publikasi">Publish Date</label>
@@ -36,4 +35,4 @@
 
         <button type="submit" class="btn btn-primary">Create</button>
     </form>
-@endsection
+

@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Posts;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -9,7 +10,7 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::orderBy('created_at', 'desc')->paginate(10);
+        $posts = Posts::orderBy('created_at', 'desc')->paginate(10);
         return view('posts.index', compact('posts'));
     }
 
@@ -24,7 +25,7 @@ class PostController extends Controller
             'thumbnail' => 'nullable|image|max:2048',
             'judul' => 'required',
             'konten' => 'required',
-            'status' => 'required|in:Draft,Publish',
+            'status_publish' => 'required|in:Draft,Publish',
             'tanggal_publikasi' => 'nullable|date',
         ]);
 
@@ -33,22 +34,22 @@ class PostController extends Controller
             $validatedData['thumbnail'] = $thumbnailPath;
         }
 
-        Post::create($validatedData);
+        Posts::create($validatedData);
 
         return redirect()->route('posts.index')->with('success', 'Post created successfully.');
     }
 
-    public function show(Post $post)
+    public function show(Posts $post)
     {
         return view('posts.show', compact('post'));
     }
 
-    public function edit(Post $post)
+    public function edit(Posts $post)
     {
         return view('posts.edit', compact('post'));
     }
 
-    public function update(Request $request, Post $post)
+    public function update(Request $request, Posts $post)
     {
         $validatedData = $request->validate([
             'thumbnail' => 'nullable|image|max:2048',
@@ -71,7 +72,7 @@ class PostController extends Controller
         return redirect()->route('posts.index')->with('success', 'Post updated successfully.');
     }
 
-    public function destroy(Post $post)
+    public function destroy(Posts $post)
     {
         if ($post->thumbnail) {
             Storage::delete($post->thumbnail);
