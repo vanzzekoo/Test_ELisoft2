@@ -1,6 +1,4 @@
-@extends('layouts.app')
 
-@section('content')
     <h1>Edit Post</h1>
 
     <form action="{{ route('posts.update', $post) }}" method="POST" enctype="multipart/form-data">
@@ -42,4 +40,4 @@
 
         <button type="submit" class="btn btn-primary">Update</button>
     </form>
-@endsection
+

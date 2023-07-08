@@ -15,7 +15,9 @@
         <div class="container">
             <h1>Posts</h1>
 
-            <a href="{{ route('posts.create') }}" class="btn btn-primary">Create Post</a>
+               <td colspan="6">
+                   <a href="{{ route('posts.create') }}" class="btn btn-primary">Create Post</a>
+               </td>
 
             @if ($posts->count() > 0)
                 <table class="table mt-3">
@@ -23,7 +25,8 @@
                         <tr>
                             <th>Thumbnail</th>
                             <th>Title</th>
-                            <th>Status</th>
+                            <th>Konten</th>
+                            <th>Status_publish</th>
                             <th>Published At</th>
                             <th></th>
                         </tr>
@@ -37,10 +40,12 @@
                                     @endif
                                 </td>
                                 <td>{{ $post->judul }}</td>
-                                <td>{{ $post->status }}</td>
+                                <td>{{ $post->konten }}</td>
+                                <td>{{ $post->status_publish }}</td>
                                 <td>{{ $post->tanggal_publikasi }}</td>
                                 <td>
-                                    <a href="{{ route('posts.show', $post) }}" class="btn btn-info">View</a>
+
+
                                     <a href="{{ route('posts.edit', $post) }}" class="btn btn-primary">Edit</a>
                                     <form action="{{ route('posts.destroy', $post) }}" method="POST" class="form-inline">
                                         @csrf
