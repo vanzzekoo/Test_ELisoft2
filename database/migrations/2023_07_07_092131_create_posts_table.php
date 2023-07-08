@@ -11,8 +11,9 @@ class CreatePostsTable extends Migration
             $table->id();
             $table->string('thumbnail')->nullable();
             $table->string('title');
-            $table->text('content');
-            $table->enum('status', ['draft', 'publish'])->default('draft');
+            $table->text('konten');
+            $table->enum('status_publish', ['draft', 'publish'])->default('draft');
+            $table->date('tanggal_publikasi');
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });

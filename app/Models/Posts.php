@@ -13,12 +13,12 @@ class Posts extends Model
         'thumbnail',
         'judul',
         'konten',
-        'status',
+        'status_publish',
         'tanggal_publikasi',
     ];
 
     public function scopePublished($query)
     {
-        return $query->where('status', 'Publish')->whereNotNull('tanggal_publikasi');
+        return $query->where('status_publish', 'Publish')->whereNotNull('tanggal_publikasi');
     }
 }

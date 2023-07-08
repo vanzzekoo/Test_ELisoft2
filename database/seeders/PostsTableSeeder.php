@@ -20,14 +20,14 @@ class PostsTableSeeder extends Seeder
             'thumbnail' => 'thumbnail1.jpg',
             'judul' => 'Post 1',
             'konten' => 'Konten Post 1',
-            'status' => 'Publish',
+            'status_publish' => 'Publish',
             'tanggal_publikasi' => now(),
         ],
         [
             'thumbnail' => 'thumbnail2.jpg',
             'judul' => 'Post 2',
             'konten' => 'Konten Post 2',
-            'status' => 'Draft',
+            'status_publish' => 'Draft',
             'tanggal_publikasi' => null,
         ],
         // Tambahkan data lainnya sesuai kebutuhan
